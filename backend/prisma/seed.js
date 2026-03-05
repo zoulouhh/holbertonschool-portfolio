@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client')
+const bcrypt = require('bcryptjs')
 const prisma = new PrismaClient()
 
 function rand(min, max) {
@@ -136,6 +137,22 @@ async function main() {
   console.log(`✅ Seeded ${trades.length} trades and ${dailyArr.length} daily stats`)
   console.log(`   Initial balance : $${INITIAL_BALANCE.toLocaleString()}`)
   console.log(`   Final balance   : $${balance.toFixed(2)}`)
+
+  // ── Admin user ──────────────────────────────────────────────────
+  const ADMIN_USER = 'admin'
+  const ADMIN_PASS = 'Trading2026!'
+
+  const hash = await bcrypt.hash(ADMIN_PASS, 12)
+  await prisma.user.upsert({
+    where:  { username: ADMIN_USER },
+    update: { passwordHash: hash },
+    create: { username: ADMIN_USER, passwordHash: hash }
+  })
+  console.log(`   ──────────────────────────────────────`)
+  console.log(`   🔐 Compte admin créé :`)
+  console.log(`      Login    : ${ADMIN_USER}`)
+  console.log(`      Password : ${ADMIN_PASS}`)
+  console.log(`   ──────────────────────────────────────`)
 }
 
 main()
