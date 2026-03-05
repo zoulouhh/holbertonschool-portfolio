@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Trade {
+  id          Int       @id @default(autoincrement())
+  symbol      String    @default("XAUUSD")
+  type        String    // BUY | SELL
+  openTime    DateTime
+  closeTime   DateTime?
+  openPrice   Float
+  closePrice  Float?
+  lotSize     Float
+  stopLoss    Float
+  takeProfit  Float
+  profit      Float?
+  pips        Float?
+  status      String    @default("OPEN") // OPEN | CLOSED
+  comment     String?
+  magicNumber Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model DailyStat {
+  id          Int      @id @default(autoincrement())
+  date        DateTime @unique
+  totalTrades Int      @default(0)
+  wins        Int      @default(0)
+  losses      Int      @default(0)
+  grossProfit Float    @default(0)
+  grossLoss   Float    @default(0)
+  netProfit   Float    @default(0)
+  equity      Float    @default(0)
+  drawdown    Float    @default(0)
+  createdAt   DateTime @default(now())
+}
