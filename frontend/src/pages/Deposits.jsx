@@ -29,7 +29,7 @@ export default function Deposits() {
 
   const load = useCallback(async () => {
     try {
-      const { data } = await client.get('/api/deposits')
+      const { data } = await client.get('/deposits')
       setDeposits(data)
     } catch {
       showToast('Impossible de charger les dépôts.', 'error')
@@ -49,7 +49,7 @@ export default function Deposits() {
     if (!form.amount || isFloat(form.amount) === false) return showToast('Montant invalide.', 'error')
     setSubmitting(true)
     try {
-      await client.post('/api/deposits', {
+      await client.post('/deposits', {
         amount: parseFloat(form.amount),
         method: form.method,
         txHash: form.txHash || null,

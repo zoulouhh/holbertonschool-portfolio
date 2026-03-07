@@ -25,7 +25,7 @@ export default function AdminUsers() {
 
   const load = useCallback(async () => {
     try {
-      const { data } = await client.get('/api/users')
+      const { data } = await client.get('/users')
       setUsers(data)
     } catch {
       showToast('Impossible de charger les utilisateurs.', 'error')
@@ -41,7 +41,7 @@ export default function AdminUsers() {
     e.preventDefault()
     setCreating(true)
     try {
-      await client.post('/api/users', newUser)
+      await client.post('/users', newUser)
       setNewUser({ username: '', password: '' })
       showToast(`✅ Compte « ${newUser.username} » créé !`)
       load()
@@ -57,7 +57,7 @@ export default function AdminUsers() {
     if (!newPwd || newPwd.length < 6) return showToast('Min 6 caractères.', 'error')
     setSavingPwd(true)
     try {
-      await client.patch(`/api/users/${pwdModal.id}/password`, { password: newPwd })
+      await client.patch(`/users/${pwdModal.id}/password`, { password: newPwd })
       showToast('Mot de passe mis à jour !')
       setPwdModal(null)
       setNewPwd('')
@@ -71,7 +71,7 @@ export default function AdminUsers() {
   /* ── Delete ── */
   const handleDelete = async id => {
     try {
-      await client.delete(`/api/users/${id}`)
+      await client.delete(`/users/${id}`)
       showToast('Utilisateur supprimé.')
       setDelConfirm(null)
       load()

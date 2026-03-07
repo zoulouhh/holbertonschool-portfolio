@@ -36,7 +36,7 @@ export default function Withdrawals() {
 
   const load = useCallback(async () => {
     try {
-      const { data } = await client.get('/api/withdrawals')
+      const { data } = await client.get('/withdrawals')
       setWithdrawals(data)
     } catch {
       showToast('Impossible de charger les retraits.', 'error')
@@ -60,7 +60,7 @@ export default function Withdrawals() {
 
     setSubmitting(true)
     try {
-      await client.post('/api/withdrawals', {
+      await client.post('/withdrawals', {
         amount,
         method:  form.method,
         address: form.address.trim(),

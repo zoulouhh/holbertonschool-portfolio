@@ -11,7 +11,7 @@ export default function Referral() {
 
   const load = useCallback(async () => {
     try {
-      const { data } = await client.get('/api/referral')
+      const { data } = await client.get('/referral')
       setStats(data.stats)
       setReferrals(data.referrals)
     } catch {

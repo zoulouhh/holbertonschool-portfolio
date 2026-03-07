@@ -28,7 +28,7 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:password@db:5432/xauusd_robot
       PORT:         3001
-      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URL: http://localhost
     ports:
       - "3001:3001"
     depends_on:
