@@ -15,7 +15,18 @@ const app = express()
 const PORT = process.env.PORT || 3001
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Allow no-origin (server-to-server), any localhost port, and GitHub Codespaces tunnels
+    if (
+      !origin ||
+      /^https?:\/\/localhost(:\d+)?$/.test(origin) ||
+      /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin) ||
+      /\.app\.github\.dev$/.test(origin)
+    ) {
+      return callback(null, true)
+    }
+    callback(new Error(`CORS: origin not allowed: ${origin}`))
+  },
   credentials: true
 }))
 app.use(express.json())

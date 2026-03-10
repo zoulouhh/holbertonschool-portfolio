@@ -4,8 +4,13 @@ const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem('xauusd_user')
-    return stored ? JSON.parse(stored) : null
+    try {
+      const stored = localStorage.getItem('xauusd_user')
+      return stored ? JSON.parse(stored) : null
+    } catch {
+      localStorage.removeItem('xauusd_user')
+      return null
+    }
   })
 
   const login = useCallback((data) => {
