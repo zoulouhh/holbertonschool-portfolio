@@ -22,7 +22,11 @@ export default function Login() {
       login(res.data)
       navigate('/dashboard', { replace: true })
     } catch (err) {
-      setError(err.response?.data?.error || 'Erreur de connexion.')
+      if (!err.response) {
+        setError("Impossible de joindre le serveur. Vérifie que le backend tourne sur le port 3001.")
+      } else {
+        setError(err.response?.data?.error || 'Erreur de connexion.')
+      }
     } finally {
       setLoading(false)
     }
